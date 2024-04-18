@@ -1,0 +1,49 @@
+services:
+  api:
+    container_name: api
+    build: .
+    ports:
+      - '8087:8087'
+    depends_on:
+      - postgresql
+    environment:
+      DB_URL: jdbc:postgresql://postgresql:5432/server
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    networks:
+      - server
+
+  postgresql:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: server
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - server
+
+  liquibase-migrations:
+    image: liquibase/liquibase:4.25
+    depends_on:
+      - postgresql
+    command:
+      - --changelog-file=master.yaml
+      - --driver=org.postgresql.Driver
+      - --url=jdbc:postgresql://postgresql:5432/server
+      - --username=postgres
+      - --password=postgres
+      - update
+    volumes:
+      - ./migrations:/liquibase/changelog
+    networks:
+      - server
+
+volumes:
+  postgresql: { }
+
+networks:
+  server: { }

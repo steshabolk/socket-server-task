@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: server
+
+db:
+  url: jdbc:postgresql://localhost:5432/server
+  username: postgres
+  password: postgres
+  driver: org.postgresql.Driver
+  pool-size: 10
+
+server:
+  port: 8087
+
+logging:
+  config: classpath:log4j2.xml
+
+app:
+  server:
+    thread-pool-size: 10
+    socket-timeout: 5000
+  jwt:
+    secret: GPs4nglSC5wJFlv8OuBp7HN67S9JDIbm
+    ttl: 10
+    header: X-Access-Token

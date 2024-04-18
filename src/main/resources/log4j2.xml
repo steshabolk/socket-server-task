@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout
+                disableAnsi="false"
+                pattern="%d{HH:mm:ss.SSS} %highlight{%-5p} [%-30.30thread] %style{%X} %-25.25logger{20} -- %highlight{%m} %n"
+            />
+        </Console>
+        <RollingFile name="FILE" fileName="logs/server.log" filePattern="logs/server-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout
+                pattern="%d{yyy-MM-dd HH:mm:ss.SSS} %-5p [%-30.30thread] %style{%X} %-25.25logger{20} -- %m %n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.postgresql" level="WARN"/>
+        <Logger name="org.springframework" level="WARN"/>
+        <Logger name="com.task.server" level="DEBUG"/>
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT" level="DEBUG"/>
+            <AppenderRef ref="FILE" level="INFO"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
