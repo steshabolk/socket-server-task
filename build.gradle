@@ -16,6 +16,8 @@ configurations {
 		extendsFrom annotationProcessor
 	}
     all*.exclude module : 'spring-boot-starter-logging'
+    all*.exclude module : 'spring-boot-starter-tomcat'
+    all*.exclude group : 'org.apache.tomcat'
 }
 
 repositories {
